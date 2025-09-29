@@ -16,16 +16,17 @@ namespace VendingMachine.Tests
         }
 
         [Theory]
-        [InlineData(Money.GBP.Coinage.OnePence)]
-        public void Insert_Coin_Should_Update_Display_Message(Money.GBP.Coinage coin)
+        [ClassData(typeof(CoinTestData))]
+        public void Insert_Coin_Should_Accept_Valid_Coins_And_Update_Current_Amount(Coin coin)
         {
             // Arrange
             var vendingMachine = new VendingMachine();
+
             // Act
             vendingMachine.InsertCoin(coin);
-            var displayMessage = VendingMachine.Display();
+
             // Assert
-            Assert.Equal("£0.01", displayMessage);
+            Assert.Equal(coin.Value, vendingMachine.CurrentAmount);
         }
     }
 }
