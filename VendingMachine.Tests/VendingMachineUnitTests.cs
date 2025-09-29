@@ -1,4 +1,4 @@
-﻿namespace VendingMachine.Tests
+namespace VendingMachine.Tests
 {
     public class VendingMachineTests
     {
@@ -9,7 +9,7 @@
             var vendingMachine = new VendingMachine();
 
             // Act
-            var displayMessage = vendingMachine.Display();
+            var displayMessage = VendingMachine.Display();
 
             // Assert
             Assert.Equal("INSERT COIN", displayMessage);
