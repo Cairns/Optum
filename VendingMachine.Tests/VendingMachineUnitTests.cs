@@ -6,7 +6,7 @@ namespace VendingMachine.Tests
         public void Display_Should_Show_Insert_Coin_When_No_Coins_Are_Inserted()
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            _ = new VendingMachine();
 
             // Act
             var displayMessage = VendingMachine.Display();
