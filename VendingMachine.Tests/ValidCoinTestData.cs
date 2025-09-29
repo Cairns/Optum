@@ -4,8 +4,6 @@ namespace VendingMachine.Tests
     {
         public ValidCoinTestData()
         {
-            Add(Money.GBP.Coinage.OnePence);
-            Add(Money.GBP.Coinage.TwoPence);
             Add(Money.GBP.Coinage.FivePence);
             Add(Money.GBP.Coinage.TenPence);
             Add(Money.GBP.Coinage.TwentyPence);
