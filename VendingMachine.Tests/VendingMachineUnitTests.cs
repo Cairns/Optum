@@ -16,7 +16,7 @@ namespace VendingMachine.Tests
         }
 
         [Theory]
-        [ClassData(typeof(CoinTestData))]
+        [ClassData(typeof(ValidCoinTestData))]
         public void Insert_Coin_Should_Accept_Valid_Coins_And_Update_Current_Amount(Coin coin)
         {
             // Arrange
@@ -28,5 +28,8 @@ namespace VendingMachine.Tests
             // Assert
             Assert.Equal(coin.Value, vendingMachine.CurrentAmount);
         }
+
+        [Theory]
+        [ClassData(typeof(ValidCoinTestData))]
     }
 }

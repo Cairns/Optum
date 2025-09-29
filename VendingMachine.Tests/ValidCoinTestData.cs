@@ -1,8 +1,8 @@
 namespace VendingMachine.Tests
 {
-    public class CoinTestData : TheoryData<Coin>
+    public class ValidCoinTestData : TheoryData<Coin>
     {
-        public CoinTestData()
+        public ValidCoinTestData()
         {
             Add(Money.GBP.Coinage.OnePence);
             Add(Money.GBP.Coinage.TwoPence);
