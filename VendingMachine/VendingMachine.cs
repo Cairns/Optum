@@ -39,7 +39,10 @@ namespace VendingMachine
         /// <param name="coin">The coin to insert. Must not be null and must have a valid value.</param>
         public void InsertCoin(Coin coin)
         {
-            //TODO: Validate coin
+            if (!ValidationStrategy.IsValid(coin))
+            {
+                return;
+            }
             CurrentAmount += coin.Value;
         }
     }
