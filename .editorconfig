@@ -221,7 +221,7 @@ csharp_style_pattern_local_over_anonymous_function = true
 # IDE0040: Add accessibility modifers
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0040
 dotnet_diagnostic.IDE0040.severity = error
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:error
+dotnet_style_require_accessibility_modifiers = always:error
 
 # IDE0041: Use is null check
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0041
