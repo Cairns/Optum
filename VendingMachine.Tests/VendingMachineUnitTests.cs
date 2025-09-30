@@ -109,5 +109,28 @@ namespace VendingMachine.Tests
             // Assert
             Assert.Empty(returnedCoinsAfterEmpty);
         }
+
+        [Fact]
+        public void Insert_Coin_Should_Accept_Multiple_Valid_Coins_And_Update_Current_Amount()
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+            var coins = new List<Coin>
+            {
+                Money.GBP.Denomination.FivePence,
+                Money.GBP.Denomination.TenPence,
+                Money.GBP.Denomination.TwentyPence,
+            };
+
+            // Act
+            foreach (var coin in coins)
+            {
+                vendingMachine.InsertCoin(coin);
+            }
+
+            // Assert
+            var expectedTotal = coins.Sum(c => c.Value);
+            Assert.Equal(expectedTotal, vendingMachine.CurrentAmount);
+        }
     }
 }
