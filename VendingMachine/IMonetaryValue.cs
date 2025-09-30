@@ -14,7 +14,7 @@ namespace VendingMachine
         public Currency Currency { get; }
 
         /// <summary>
-        /// The monetary value of this <see cref="IMonetaryValue"/> item in the smallest currency unit (e.g., cents).
+        /// The monetary value of this <see cref="IMonetaryValue"/> item in the smallest currency unit (e.g., pence).
         /// </summary>
         public int Value { get; }
     }
