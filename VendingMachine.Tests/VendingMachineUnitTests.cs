@@ -2,11 +2,16 @@ namespace VendingMachine.Tests
 {
     public class VendingMachineTests
     {
+        public static VendingMachine CreateVendingMachine(Currency currency, IValidationStrategy validationStrategy)
+        {
+            return new VendingMachine(currency, validationStrategy);
+        }
+
         [Fact]
         public void Display_Should_Show_Insert_Coin_When_No_Coins_Are_Inserted()
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
 
             // Act
             var displayMessage = vendingMachine.Display();
@@ -20,7 +25,7 @@ namespace VendingMachine.Tests
         public void Insert_Coin_Should_Accept_Valid_Coins_And_Update_Current_Amount(Coin coin)
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
 
             // Act
             vendingMachine.InsertCoin(coin);
@@ -34,7 +39,7 @@ namespace VendingMachine.Tests
         public void Insert_Coin_Should_Accept_Valid_Coins_And_Update_Display(Coin coin)
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
 
             // Act
             vendingMachine.InsertCoin(coin);
@@ -49,7 +54,7 @@ namespace VendingMachine.Tests
         public void Insert_Coin_Should_Reject_Invalid_Coins_And_Not_Update_Current_Amount(Coin coin)
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
 
             // Act
             vendingMachine.InsertCoin(coin);
@@ -63,7 +68,7 @@ namespace VendingMachine.Tests
         public void Insert_Coin_Should_Reject_Invalid_Coins_And_Not_Update_Display(Coin coin)
         {
             // Arrange
-            var vendingMachine = new VendingMachine();
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
 
             // Act
             vendingMachine.InsertCoin(coin);
