@@ -24,7 +24,7 @@ namespace VendingMachine
         /// <summary>
         /// Gets the collection of coins currently in the coin return slot.
         /// </summary>
-        public IReadOnlyCollection<Coin> CoinReturn => _coinReturn;
+        public IReadOnlyCollection<Coin> CoinReturn => _coinReturn.AsReadOnly();
 
         /// <summary>
         /// Displays the current amount in the machine or a prompt to insert a coin.
@@ -59,6 +59,11 @@ namespace VendingMachine
         /// </summary>
         /// <remarks>This method clears the coin return tray, removing all coins currently held in it. It
         /// can be used to reset the coin return state after coins have been collected.</remarks>
-        public void EmptyCoinReturn() => _coinReturn.Clear();
+        //public void EmptyCoinReturn() => _coinReturn.Clear();
+        public void EmptyCoinReturn()
+        {
+            _coinReturn.Clear();
+            _coinReturn = [];
+        }
     }
 }
