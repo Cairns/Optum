@@ -27,6 +27,11 @@ namespace VendingMachine
         public IReadOnlyCollection<Coin> CoinReturn => _coinReturn.AsReadOnly();
 
         /// <summary>
+        /// Gets the currently selected product.
+        /// </summary>
+        public Product? SelectedProduct { get; private set; }
+
+        /// <summary>
         /// Displays the current amount in the machine or a prompt to insert a coin.
         /// </summary>
         /// <returns>A string representing the current amount formatted as currency if greater than zero;  otherwise, the string
@@ -66,9 +71,24 @@ namespace VendingMachine
             _coinReturn = [];
         }
 
-        public void SelectProduct(Product product)
+        public Product? SelectProduct(Product product)
         {
-            //TODO: Implement this method
+            SelectedProduct = product;
+
+            if (SelectedProduct is null)
+            {
+                return null;
+            }
+
+            if (CurrentAmount < SelectedProduct.Value)
+            {
+                return null;
+            }
+
+            var dispensedProduct = SelectedProduct;
+            SelectedProduct = null;
+
+            return dispensedProduct;
         }
     }
 }
