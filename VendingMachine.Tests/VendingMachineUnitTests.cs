@@ -185,5 +185,24 @@ namespace VendingMachine.Tests
             Assert.Contains(Money.GBP.Denomination.OnePence, vendingMachine.CoinReturn);
             Assert.Contains(Money.GBP.Denomination.TwoPence, vendingMachine.CoinReturn);
         }
+
+        [Theory]
+        [ClassData(typeof(ProductTestData))]
+        public void Select_Product_With_Exact_Money_Should_Dispense_Product_And_Display_ThankYou(Product product)
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+
+            // Act
+            vendingMachine.InsertCoin(Money.GBP.Denomination.TwoPounds); // Insert £2.00
+
+            var result = vendingMachine.SelectProduct(product);
+            var displayMessage = vendingMachine.Display();
+
+            // Assert
+            Assert.True(result);
+            Assert.Equal(product, result);
+            Assert.Equal("THANK YOU", displayMessage);
+        }
     }
 }
