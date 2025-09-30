@@ -54,3 +54,4 @@ TestResult.xml
 nunit-*.xml
 /VendingMachine/.vs/VendingMachine
 /.vs
+/VendingMachine/.vs/ProjectEvaluation
