@@ -77,5 +77,20 @@ namespace VendingMachine.Tests
             // Assert
             Assert.Equal("INSERT COIN", displayMessage);
         }
+
+        [Theory]
+        [ClassData(typeof(InvalidCoinTestData))]
+        public void Insert_Coin_Should_Reject_Invalid_Coins_And_Add_To_Coin_Return(Coin coin)
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+
+            // Act
+            vendingMachine.InsertCoin(coin);
+            var returnedCoins = vendingMachine.CoinReturn;
+
+            // Assert
+            Assert.Contains(coin, returnedCoins);
+        }
     }
 }
