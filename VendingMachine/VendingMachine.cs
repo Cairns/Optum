@@ -1,9 +1,10 @@
+using System.Collections.ObjectModel;
+
 namespace VendingMachine
 {
     public class VendingMachine(Currency currency,
         IValidationStrategy validationStrategy)
     {
-
         /// <summary>
         /// Gets the accepted currency associated with the current operation or context.
         /// </summary>
@@ -18,6 +19,12 @@ namespace VendingMachine
         /// Gets the validation strategy used to validate input data or objects.
         /// </summary>
         public IValidationStrategy ValidationStrategy { get; private set; } = validationStrategy;
+
+        protected Collection<Coin> _coinReturn = [];
+        /// <summary>
+        /// Gets the collection of coins currently in the coin return slot.
+        /// </summary>
+        public IReadOnlyCollection<Coin> CoinReturn => _coinReturn;
 
         /// <summary>
         /// Displays the current amount in the machine or a prompt to insert a coin.
@@ -41,9 +48,17 @@ namespace VendingMachine
         {
             if (!ValidationStrategy.IsValid(coin))
             {
+                _coinReturn.Add(coin);
                 return;
             }
             CurrentAmount += coin.Value;
         }
+
+        /// <summary>
+        /// Empties all coins from the coin return tray.
+        /// </summary>
+        /// <remarks>This method clears the coin return tray, removing all coins currently held in it. It
+        /// can be used to reset the coin return state after coins have been collected.</remarks>
+        public void EmptyCoinReturn() => _coinReturn.Clear();
     }
 }
