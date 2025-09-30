@@ -92,5 +92,22 @@ namespace VendingMachine.Tests
             // Assert
             Assert.Contains(coin, returnedCoins);
         }
+
+        [Theory]
+        [ClassData(typeof(InvalidCoinTestData))]
+        public void Empty_Coin_Return_Should_Clear_Coin_Return_After_Invalid_Coins_Are_Inserted(Coin coin)
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+
+            // Act
+            vendingMachine.InsertCoin(coin);
+
+            vendingMachine.EmptyCoinReturn();
+            var returnedCoinsAfterEmpty = vendingMachine.CoinReturn;
+
+            // Assert
+            Assert.Empty(returnedCoinsAfterEmpty);
+        }
     }
 }
