@@ -37,7 +37,7 @@ namespace VendingMachine
             {
                 return $"{Currency.Symbol}{CurrentAmount / 100.0:F2}";
             }
-            return "INSERT COIN";
+            return VendingMachineMessages.InsertCoin;
         }
 
         /// <summary>
@@ -65,5 +65,18 @@ namespace VendingMachine
             _coinReturn.Clear();
             _coinReturn = [];
         }
+
+        public void SelectProduct(Product product)
+        {
+            //TODO: Implement this method
+        }
+    }
+
+    public class VendingMachineMessages
+    {
+        public const string InsertCoin = "INSERT COIN";
+        public const string ThankYou = "THANK YOU";
+        public const string SoldOut = "SOLD OUT";
+        public const string ExactChangeOnly = "EXACT CHANGE ONLY";
     }
 }
