@@ -132,5 +132,58 @@ namespace VendingMachine.Tests
             var expectedTotal = coins.Sum(c => c.Value);
             Assert.Equal(expectedTotal, vendingMachine.CurrentAmount);
         }
+
+        [Fact]
+        public void Insert_Coin_Should_Accept_Multiple_Valid_Coins_And_Update_Display()
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+            var coins = new List<Coin>
+            {
+                Money.GBP.Denomination.FivePence,
+                Money.GBP.Denomination.TenPence,
+                Money.GBP.Denomination.TwentyPence,
+            };
+
+            // Act
+            foreach (var coin in coins)
+            {
+                vendingMachine.InsertCoin(coin);
+            }
+
+            var displayMessage = vendingMachine.Display();
+
+            // Assert
+            Assert.Equal($"{Currency.GBP.Symbol}{vendingMachine.CurrentAmount / 100.0:F2}", displayMessage);
+        }
+
+        [Fact]
+        public void Insert_Coin_Should_Accept_Valid_And_Reject_Invalid_Coins_And_Only_Accumulate_Valid_Ones()
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+            var validCoins = new List<Coin>
+            {
+                Money.GBP.Denomination.FivePence,
+                Money.GBP.Denomination.TenPence,
+            };
+            var invalidCoins = new List<Coin>
+            {
+                Money.GBP.Denomination.OnePence,
+                Money.GBP.Denomination.TwoPence,
+            };
+
+            // Act
+            vendingMachine.InsertCoin(Money.GBP.Denomination.FivePence); // Valid
+            vendingMachine.InsertCoin(Money.GBP.Denomination.OnePence); // Invalid
+            vendingMachine.InsertCoin(Money.GBP.Denomination.TenPence); // Valid
+            vendingMachine.InsertCoin(Money.GBP.Denomination.TwoPence); // Invalid
+
+            // Assert
+            var expectedTotal = validCoins.Sum(c => c.Value);
+            Assert.Equal(expectedTotal, vendingMachine.CurrentAmount);
+            Assert.Contains(Money.GBP.Denomination.OnePence, vendingMachine.CoinReturn);
+            Assert.Contains(Money.GBP.Denomination.TwoPence, vendingMachine.CoinReturn);
+        }
     }
 }
