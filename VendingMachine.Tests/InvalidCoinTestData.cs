@@ -4,8 +4,8 @@ namespace VendingMachine.Tests
     {
         public InvalidCoinTestData()
         {
-            Add(Money.GBP.Coinage.OnePence);
-            Add(Money.GBP.Coinage.TwoPence);
+            Add(Money.GBP.Denomination.OnePence);
+            Add(Money.GBP.Denomination.TwoPence);
         }
     }
 }

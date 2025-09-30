@@ -4,12 +4,12 @@ namespace VendingMachine.Tests
     {
         public ValidCoinTestData()
         {
-            Add(Money.GBP.Coinage.FivePence);
-            Add(Money.GBP.Coinage.TenPence);
-            Add(Money.GBP.Coinage.TwentyPence);
-            Add(Money.GBP.Coinage.FiftyPence);
-            Add(Money.GBP.Coinage.OnePound);
-            Add(Money.GBP.Coinage.TwoPounds);
+            Add(Money.GBP.Denomination.FivePence);
+            Add(Money.GBP.Denomination.TenPence);
+            Add(Money.GBP.Denomination.TwentyPence);
+            Add(Money.GBP.Denomination.FiftyPence);
+            Add(Money.GBP.Denomination.OnePound);
+            Add(Money.GBP.Denomination.TwoPounds);
         }
     }
 }

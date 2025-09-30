@@ -4,7 +4,7 @@
     {
         public static class GBP
         {
-            public static class Coinage
+            public static class Denomination
             {
                 public static readonly Coin OnePence = new(Currency.GBP, 1);
                 public static readonly Coin TwoPence = new(Currency.GBP, 2);
