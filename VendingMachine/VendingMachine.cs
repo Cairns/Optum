@@ -38,6 +38,21 @@ namespace VendingMachine
         /// "INSERT COIN".</returns>
         public string Display()
         {
+            if (SelectedProduct != null)
+            {
+                if (CurrentAmount < SelectedProduct.Value)
+                {
+                    var price = $"PRICE {SelectedProduct.Currency.Symbol}{SelectedProduct.Value / 100.0:F2}";
+                    SelectedProduct = null; // Reset selected product after showing price
+                    return price;
+                }
+                else
+                {
+                    SelectedProduct = null; // Reset selected product after successful purchase
+                    return VendingMachineMessages.ThankYou;
+                }
+            }
+
             if (CurrentAmount > 0)
             {
                 return $"{Currency.Symbol}{CurrentAmount / 100.0:F2}";
@@ -71,24 +86,52 @@ namespace VendingMachine
             _coinReturn = [];
         }
 
-        public Product? SelectProduct(Product product)
+        public bool SelectProduct(Product product)
         {
-            SelectedProduct = product;
-
-            if (SelectedProduct is null)
+            if (product is null)
             {
-                return null;
+                return false;
             }
 
-            if (CurrentAmount < SelectedProduct.Value)
+            if (CurrentAmount < product.Value)
             {
-                return null;
+                SelectedProduct = product;
+                return false;
             }
 
-            var dispensedProduct = SelectedProduct;
-            SelectedProduct = null;
+            if (CurrentAmount > product.Value)
+            {
+                SelectedProduct = product;
+                var change = CurrentAmount - product.Value;
+                DispenseChange(change);
+            }
 
-            return dispensedProduct;
+            // Reset
+            CurrentAmount = 0;
+
+            return true;
+        }
+
+        private void DispenseChange(int changeAmount)
+        {
+            // For simplicity, assume we have an unlimited supply of coins in the machine
+            var validCoins = ValidationStrategy.ValidCoins
+                .OrderByDescending(c => c.Value)
+                .ToList();
+
+            var remainingChange = changeAmount;
+
+            while (remainingChange > 0)
+            {
+                var coin = validCoins.FirstOrDefault(c => c.Value <= remainingChange);
+                if (coin == null)
+                {
+                    break; // Should never happen with standard UK coinage
+                }
+
+                _coinReturn.Add(coin);
+                remainingChange -= coin.Value;
+            }
         }
     }
 }
