@@ -210,6 +210,42 @@ namespace VendingMachine.Tests
             Assert.Equal(VendingMachineMessages.InsertCoin, secondDisplay);
         }
 
+        [Theory]
+        [ClassData(typeof(ProductWithMoneyTestData))]
+        public void Select_Product_With_Insufficient_Money_Should_Not_Dispense_Product_And_Display_Current_Amount(Product product, Coin coin)
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+            vendingMachine.InsertCoin(coin);
+
+            // Act
+            var result = vendingMachine.SelectProduct(product);
+            var displayMessage = vendingMachine.Display();
+            var expectedDisplay = $"PRICE {product.Currency.Symbol}{product.Value / 100.0:F2}";
+
+            // Assert
+            Assert.False(result);
+            Assert.Equal(expectedDisplay, displayMessage);
+        }
+
+        [Theory]
+        [ClassData(typeof(ProductTestData))]
+        public void Select_Product_With_Excess_Money_Should_Make_Change(Product product)
+        {
+            // Arrange
+            var vendingMachine = CreateVendingMachine(Currency.GBP, new GBPValidationStrategy());
+            vendingMachine.InsertCoin(Money.GBP.Denomination.TwoPounds); // £2.00
+
+            // Act
+            vendingMachine.SelectProduct(product);
+            var change = vendingMachine.CoinReturn;
+            var totalChange = change.Sum(c => c.Value);
+
+            // Assert
+            Assert.Equal(200 - product.Value, totalChange);
+            Assert.Equal(0, vendingMachine.CurrentAmount);
+        }
+
         private static List<Coin> GetRequiredCoinsForProductPrice(IMonetaryValue monetaryValue)
         {
             var coins = new List<Coin>();
